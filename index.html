@@ -128,13 +128,12 @@
       </ul>
     </div>
 
-    <figure class="house__fig">
-      <span class="ph" data-fallback>
-        <img src="https://images.unsplash.com/photo-1585059895524-72359e06133a?auto=format&fit=crop&w=1000&q=80"
-             alt="Aromatic raw materials being worked by hand" loading="lazy" width="1000" height="1250">
-      </span>
-      <figcaption>Raw aromatics, checked on arrival against a fixed spec.</figcaption>
-    </figure>
+    <!-- The frame holds its place while the photograph is chosen: the
+         [data-fallback] gradient fills it, so the two-column grid keeps
+         its shape rather than collapsing to a single column of text. -->
+    <div class="house__fig">
+      <span class="ph" data-fallback aria-hidden="true"></span>
+    </div>
   </div>
 </section>
 
