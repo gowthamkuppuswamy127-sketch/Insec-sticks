@@ -1,0 +1,547 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Incense Creators
+   ───────────────────────────────────────────────────────────────────
+   The page is built like a product label and a perfumer's register:
+   spec labels with index numbers, tabular figures, and one horizontal
+   ember bar that carries real information (scent weight) rather than
+   decorating. Rules are drawn in low-opacity paper, never in gold —
+   gold is reserved for the few marks that need to read as the house's
+   own, and ember only ever means "lit".
+   All text pairings clear WCAG AA on their own ground.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --ground:   #12100E;
+  --ground-2: #191612;
+  --ground-3: #211D18;
+  --paper:    #F7F3EA;
+  --dim:      #B8B0A3;
+  --brass:    #C9A227;
+  --ember:    #E0662F;
+  --rule:     rgba(247, 243, 234, .12);
+  --rule-2:   rgba(247, 243, 234, .22);
+
+  --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --body: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --shell: 76rem;
+  --nav-h: 4.25rem;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--paper);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+li { list-style: none; }
+
+::selection { background: var(--brass); color: var(--ground); }
+
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sr {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--ember); color: var(--ground);
+  padding: .8rem 1.3rem; font-weight: 600; border-radius: 0 0 3px 0;
+}
+.skip:focus { left: 0; }
+
+.shell {
+  width: 100%; max-width: var(--shell);
+  margin-inline: auto; padding-inline: 1.25rem;
+}
+@media (min-width: 768px) { .shell { padding-inline: 2.5rem; } }
+
+/* ── Type scale ─────────────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -.005em;
+  margin: 0;
+  text-wrap: balance;
+}
+h2 { font-size: clamp(2.1rem, 5.2vw, 3.7rem); }
+h3 { font-size: clamp(1.2rem, 2.4vw, 1.5rem); font-weight: 400; letter-spacing: 0; }
+p { margin: 0; text-wrap: pretty; }
+
+/* Spec label: an index number and a name, set in the body face with
+   tabular figures. Deliberately not a letterspaced gold eyebrow. */
+.tag {
+  display: flex; align-items: center; gap: .7rem;
+  font-size: .78rem; font-weight: 500; color: var(--dim);
+  letter-spacing: .06em; margin-bottom: 1.15rem;
+}
+.tag i {
+  font-style: normal; font-variant-numeric: tabular-nums;
+  color: var(--brass); font-weight: 600;
+  padding-right: .7rem; border-right: 1px solid var(--rule-2);
+}
+
+h2 + .prose { margin-top: 1.5rem; }
+.prose p { color: var(--dim); font-size: 1.02rem; line-height: 1.75; }
+.prose p + p { margin-top: 1.1rem; }
+.prose strong { color: var(--paper); font-weight: 600; }
+
+.sec { padding-block: clamp(4rem, 9vw, 7.5rem); }
+.sec__head { max-width: 46rem; margin-bottom: clamp(2.5rem, 5vw, 3.75rem); }
+.sec__lede {
+  color: var(--dim); font-size: clamp(1rem, 1.6vw, 1.1rem);
+  line-height: 1.75; margin-top: 1.15rem; max-width: 42rem;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 3rem; padding: .85rem 1.5rem;
+  background: var(--ember); color: var(--ground);
+  font-family: var(--body); font-size: .93rem; font-weight: 600;
+  border: 1px solid var(--ember); border-radius: 2px; cursor: pointer;
+  transition: background-color .3s var(--ease), color .3s var(--ease);
+}
+.btn:hover { background: #f07a42; border-color: #f07a42; }
+.btn--sm { min-height: 2.75rem; padding: .5rem 1.05rem; font-size: .85rem; }
+.btn--w { width: 100%; margin-top: .4rem; }
+
+.lnk {
+  display: inline-flex; align-items: center; gap: .5rem;
+  min-height: 3rem; font-size: .93rem; font-weight: 500; color: var(--paper);
+  border-bottom: 1px solid var(--rule-2);
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.lnk span { transition: transform .3s var(--ease); }
+.lnk:hover { color: var(--brass); border-color: var(--brass); }
+.lnk:hover span { transform: translateX(4px); }
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 70; height: var(--nav-h);
+  display: flex; align-items: center;
+  border-bottom: 1px solid transparent;
+  transition: background-color .4s ease, border-color .4s ease, backdrop-filter .4s ease;
+}
+.nav.stuck {
+  background: color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--rule);
+}
+.nav__in { display: flex; align-items: center; gap: 1.5rem; width: 100%; }
+
+.brand {
+  display: flex; flex-direction: column; justify-content: center;
+  min-height: 2.75rem; margin-right: auto; line-height: 1.15;
+}
+.brand__name {
+  font-family: var(--display); font-size: 1.22rem; font-weight: 500;
+  letter-spacing: .01em;
+}
+.brand__meta {
+  font-size: .64rem; font-weight: 500; color: var(--dim);
+  letter-spacing: .12em; text-transform: uppercase; margin-top: .1rem;
+}
+
+.nav__links { display: none; gap: 1.9rem; font-size: .9rem; }
+.nav__links a {
+  display: inline-flex; align-items: center; min-height: 2.75rem;
+  color: var(--dim); transition: color .3s var(--ease);
+}
+.nav__links a:hover { color: var(--paper); }
+.nav__cta { display: none; }
+@media (min-width: 900px) { .nav__links, .nav__cta { display: inline-flex; } }
+
+.burger {
+  display: grid; gap: 5px; padding: .6rem; margin-right: -.6rem;
+  background: none; border: 0; cursor: pointer;
+}
+.burger span {
+  display: block; width: 22px; height: 1.5px; background: var(--paper);
+  transition: transform .35s var(--ease), opacity .25s ease;
+}
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+@media (min-width: 900px) { .burger { display: none; } }
+
+.panel {
+  position: fixed; inset: var(--nav-h) 0 auto 0; z-index: 65;
+  background: var(--ground-2); border-bottom: 1px solid var(--rule);
+}
+.panel nav { display: grid; padding: .5rem 1.25rem 1.25rem; }
+.panel a {
+  font-family: var(--display); font-size: 1.6rem; font-weight: 300;
+  padding: .65rem 0; border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 900px) { .panel { display: none; } }
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.hero {
+  position: relative; min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding-top: calc(var(--nav-h) + 2rem);
+  overflow: hidden;
+}
+.hero__media { position: absolute; inset: 0; }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.hero__scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(18,16,14,.94) 0%, rgba(18,16,14,.72) 46%, rgba(18,16,14,.34) 100%),
+    linear-gradient(to top, rgba(18,16,14,.96) 0%, rgba(18,16,14,.2) 42%);
+}
+.hero__in {
+  position: relative; z-index: 2;
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+.hero__title {
+  font-size: clamp(2.6rem, 8.2vw, 6rem);
+  max-width: 16ch;
+}
+.hero__title .l { display: block; }
+.hero__title .l:last-child { color: var(--brass); }
+.hero__lede {
+  max-width: 40rem; margin-top: 1.6rem;
+  color: var(--dim); font-size: clamp(1rem, 1.8vw, 1.14rem); line-height: 1.7;
+}
+.hero__act { display: flex; flex-wrap: wrap; gap: .6rem 1.75rem; margin-top: 2.2rem; }
+
+/* Label strip — the product-label device, full width at the hero's foot. */
+.label {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--ground) 78%, transparent);
+  backdrop-filter: blur(6px);
+}
+.label > div {
+  padding: 1.05rem 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+.label > div + div { border-left: 1px solid var(--rule); }
+.label > div:nth-child(3) { border-left: 0; }
+@media (min-width: 768px) {
+  .label { grid-template-columns: repeat(4, 1fr); }
+  .label > div { padding: 1.15rem 2.5rem; border-bottom: 0; }
+  .label > div:nth-child(3) { border-left: 1px solid var(--rule); }
+}
+.label dt {
+  font-size: .64rem; font-weight: 600; color: var(--dim);
+  letter-spacing: .16em; text-transform: uppercase;
+}
+.label dd {
+  margin-top: .3rem; font-size: 1.02rem; font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── House ──────────────────────────────────────────────────────── */
+.house__grid { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
+@media (min-width: 940px) {
+  .house__grid { grid-template-columns: 1.15fr .85fr; align-items: start; }
+}
+.house__fig { position: relative; }
+
+/* The frame, not the <img>, owns the aspect ratio — so a photograph that
+   fails to load leaves the layout exactly as it was and the fallback
+   gradient fills the same space. */
+.ph {
+  display: block; width: 100%; aspect-ratio: 4/5;
+  border-radius: 2px; overflow: hidden;
+}
+.ph img { width: 100%; height: 100%; object-fit: cover; }
+.house__fig figcaption,
+.trade__fig figcaption {
+  margin-top: .8rem; font-size: .82rem; color: var(--dim); line-height: 1.5;
+  padding-left: .9rem; border-left: 2px solid var(--brass);
+}
+
+.rec { margin-top: 2.5rem; border-top: 1px solid var(--rule); }
+.rec li {
+  display: grid; gap: .2rem .5rem; padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 620px) { .rec li { grid-template-columns: 8.5rem 1fr; gap: 1.5rem; } }
+.rec__k {
+  font-size: .72rem; font-weight: 600; color: var(--brass);
+  letter-spacing: .12em; text-transform: uppercase;
+  font-variant-numeric: tabular-nums; padding-top: .28rem;
+}
+.rec__v { color: var(--dim); font-size: .95rem; line-height: 1.6; }
+
+/* ── The Register ───────────────────────────────────────────────── */
+.reg { background: var(--ground-2); border-block: 1px solid var(--rule); }
+.reg__scroll { overflow-x: auto; }
+.reg__t { width: 100%; min-width: 44rem; border-collapse: collapse; }
+
+.reg__t thead th {
+  text-align: left; padding: 0 1rem .8rem 0;
+  font-size: .68rem; font-weight: 600; color: var(--dim);
+  letter-spacing: .16em; text-transform: uppercase;
+  border-bottom: 1px solid var(--rule-2);
+}
+.reg__t thead th span {
+  display: block; margin-top: .25rem;
+  letter-spacing: .04em; text-transform: none; font-weight: 400; opacity: .7;
+}
+.reg__t .c-i { width: 3rem; }
+.reg__t .c-w { width: 32%; }
+
+.reg__r td {
+  padding: 1.15rem 1rem 1.15rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  transition: background-color .3s var(--ease);
+}
+.reg__r:hover td { background: rgba(247, 243, 234, .028); }
+
+.reg__r .c-i {
+  font-variant-numeric: tabular-nums; font-size: .82rem;
+  color: var(--dim); padding-top: 1.5rem;
+}
+.reg__r .c-n b {
+  display: block; font-family: var(--display);
+  font-size: 1.55rem; font-weight: 400; line-height: 1.15;
+}
+.reg__r .c-n em {
+  display: block; margin-top: .3rem; font-style: normal;
+  font-size: .88rem; color: var(--dim); line-height: 1.55; max-width: 34ch;
+}
+.reg__r .c-f, .reg__r .c-m {
+  font-size: .86rem; color: var(--dim); padding-top: 1.45rem;
+  white-space: nowrap;
+}
+.reg__r .c-w { padding-top: 1.75rem; }
+
+/* The one place ember appears in the body of the page: a bar whose
+   length is the datum, with the tip lit. */
+.bar {
+  display: block; position: relative; height: 3px;
+  background: var(--rule); border-radius: 2px;
+}
+.bar i {
+  display: block; height: 100%; width: var(--w, 50%); border-radius: 2px;
+  background: linear-gradient(90deg, rgba(224,102,47,.35), var(--ember));
+  transform-origin: left center;
+}
+.js .bar i { transform: scaleX(0); }
+.js .in .bar i,
+.js tr.in .bar i { transform: scaleX(1); transition: transform 1s var(--ease); }
+.bar::after {
+  content: ""; position: absolute; top: 50%; left: var(--w, 50%);
+  width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%; background: var(--ember);
+  box-shadow: 0 0 8px 1px rgba(224, 102, 47, .55);
+  opacity: 0; transition: opacity .5s ease .5s;
+}
+.js tr.in .bar::after { opacity: 1; }
+.reg__r--na .c-w { color: var(--dim); font-size: .82rem; padding-top: 1.5rem; }
+
+.reg__note {
+  margin-top: 1.75rem; font-size: .88rem; color: var(--dim);
+  line-height: 1.65; max-width: 52rem;
+}
+.reg__note a { color: var(--brass); border-bottom: 1px solid var(--rule-2); }
+.reg__note a:hover { border-color: var(--brass); }
+
+/* ── Making ─────────────────────────────────────────────────────── */
+.rail { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+@media (min-width: 860px) {
+  .rail { grid-template-columns: repeat(5, 1fr); border-top: 0; }
+}
+.rail li {
+  padding: 1.5rem 0; border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 860px) {
+  .rail li {
+    padding: 1.5rem 1.5rem 0 0;
+    border-top: 1px solid var(--rule); border-bottom: 0;
+  }
+}
+.rail__n {
+  display: block; font-variant-numeric: tabular-nums;
+  font-size: .78rem; font-weight: 600; color: var(--brass);
+  letter-spacing: .1em; margin-bottom: .9rem;
+}
+.rail h3 { margin-bottom: .5rem; }
+.rail p { color: var(--dim); font-size: .92rem; line-height: 1.65; }
+
+/* ── Trade ──────────────────────────────────────────────────────── */
+.trade { background: var(--ground-2); border-block: 1px solid var(--rule); }
+.trade__grid { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
+@media (min-width: 940px) {
+  .trade__grid { grid-template-columns: .85fr 1.15fr; align-items: center; }
+}
+
+.offer { margin-top: 2.25rem; border-top: 1px solid var(--rule); }
+.offer li { padding: 1.15rem 0; border-bottom: 1px solid var(--rule); }
+.offer b {
+  display: block; font-family: var(--display);
+  font-size: 1.3rem; font-weight: 400; margin-bottom: .3rem;
+}
+.offer span { color: var(--dim); font-size: .93rem; line-height: 1.6; }
+
+/* ── Enquiry ────────────────────────────────────────────────────── */
+.enq__grid { display: grid; gap: clamp(2.5rem, 5vw, 4rem); align-items: start; }
+@media (min-width: 940px) { .enq__grid { grid-template-columns: 1fr 1fr; } }
+
+.det { margin-top: 2.5rem; border-top: 1px solid var(--rule); }
+.det > div { padding: 1.05rem 0; border-bottom: 1px solid var(--rule); display: grid; gap: .3rem; }
+@media (min-width: 620px) { .det > div { grid-template-columns: 9rem 1fr; gap: 1.5rem; } }
+.det dt {
+  font-size: .68rem; font-weight: 600; color: var(--dim);
+  letter-spacing: .16em; text-transform: uppercase; padding-top: .3rem;
+}
+.det dd { font-size: .95rem; line-height: 1.7; font-variant-numeric: tabular-nums; }
+.det a { border-bottom: 1px solid var(--rule-2); }
+.det a:hover { color: var(--brass); border-color: var(--brass); }
+
+.form {
+  display: grid; gap: 0 1rem; grid-template-columns: 1fr;
+  background: var(--ground-3); border: 1px solid var(--rule);
+  border-radius: 3px; padding: clamp(1.4rem, 3vw, 2rem);
+}
+@media (min-width: 560px) { .form { grid-template-columns: 1fr 1fr; } }
+.f { margin-bottom: 1.05rem; }
+.f--w { grid-column: 1 / -1; }
+.form label {
+  display: block; margin-bottom: .45rem;
+  font-size: .7rem; font-weight: 600; color: var(--dim);
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.f__opt { letter-spacing: .04em; text-transform: none; font-weight: 400; opacity: .8; }
+.form input, .form select, .form textarea {
+  width: 100%; padding: .8rem .9rem; min-height: 3rem;
+  background: var(--ground); border: 1px solid var(--rule-2); border-radius: 2px;
+  color: var(--paper); font-family: inherit; font-size: 1rem;
+  transition: border-color .3s ease;
+}
+.form textarea { resize: vertical; min-height: 6rem; line-height: 1.6; }
+.form input:focus, .form select:focus, .form textarea:focus { border-color: var(--brass); }
+.form input[aria-invalid="true"] { border-color: var(--ember); }
+.f__err { margin-top: .4rem; font-size: .82rem; color: var(--ember); }
+.form__note { grid-column: 1 / -1; margin-top: .9rem; font-size: .84rem; color: var(--dim); line-height: 1.6; }
+.form__note a { color: var(--brass); border-bottom: 1px solid var(--rule-2); }
+.form__done {
+  grid-column: 1 / -1; margin-top: .9rem; padding: .8rem .9rem;
+  border-left: 2px solid var(--brass); background: rgba(201,162,39,.08);
+  font-size: .9rem; line-height: 1.6;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+.foot { border-top: 1px solid var(--rule); padding-block: clamp(2.5rem, 5vw, 3.5rem); }
+.foot__in { display: grid; gap: 1.75rem; }
+@media (min-width: 860px) {
+  .foot__in { grid-template-columns: 1.4fr 1fr auto; align-items: start; gap: 3rem; }
+}
+.foot__brand p { margin-top: .6rem; color: var(--dim); font-size: .9rem; line-height: 1.65; max-width: 26rem; }
+.foot__nav { display: flex; flex-wrap: wrap; gap: 0 1.4rem; font-size: .9rem; }
+.foot__nav a {
+  display: inline-flex; align-items: center; min-height: 2.75rem;
+  color: var(--dim);
+}
+.foot__nav a:hover { color: var(--paper); }
+.foot__legal { color: var(--dim); font-size: .82rem; font-variant-numeric: tabular-nums; }
+
+/* ── Image fallback ─────────────────────────────────────────────────
+   Every photograph sits on a ground that already looks deliberate, so
+   a blocked or missing remote image degrades to a warm gradient rather
+   than a broken-image icon. main.js hides the <img> on error. */
+[data-fallback] {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 22% 8%, rgba(224,102,47,.20), transparent 58%),
+    radial-gradient(90% 80% at 82% 92%, rgba(201,162,39,.16), transparent 62%),
+    linear-gradient(160deg, var(--ground-3), var(--ground));
+  overflow: hidden;
+}
+
+/* ── Reveal on scroll ───────────────────────────────────────────────
+   The hidden start state applies only when scripting is live, so the
+   page is never invisible without JavaScript. */
+.reveal { transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.js .reveal { opacity: 0; transform: translateY(16px); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  .js .reveal, .js .reveal.in { opacity: 1; transform: none; }
+  .js .bar i { transform: scaleX(1); }
+  .js .bar::after { opacity: 1; }
+}
+
+/* ── The register on a small screen ─────────────────────────────────
+   A horizontally scrolling table hides the scent-weight bar — the one
+   piece of the register a buyer is here to compare — behind a gesture
+   with nothing to suggest it. Below 760px each fragrance becomes a
+   stacked record instead, so the bar stays on screen at full width. */
+@media (max-width: 760px) {
+  .reg__scroll { overflow-x: visible; }
+  .reg__t { min-width: 0; }
+  .reg__t thead {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .reg__t, .reg__t tbody, .reg__t tr, .reg__t td { display: block; width: 100%; }
+
+  .reg__r { padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
+  .reg__r:first-child { border-top: 1px solid var(--rule-2); }
+  .reg__r td { border: 0; padding: 0; }
+  .reg__r:hover td { background: none; }
+
+  .reg__r .c-i { padding: 0 0 .45rem; }
+  .reg__r .c-n b { font-size: 1.75rem; }
+  .reg__r .c-n em { max-width: none; }
+
+  .reg__r .c-f, .reg__r .c-m {
+    display: inline-block; width: auto;
+    padding: .9rem 1.6rem 0 0; white-space: normal;
+  }
+  .reg__r .c-f::before, .reg__r .c-m::before {
+    content: attr(data-l); display: block; margin-bottom: .15rem;
+    font-size: .62rem; font-weight: 600; color: var(--dim);
+    letter-spacing: .16em; text-transform: uppercase; opacity: .75;
+  }
+
+  /* Overrides the desktop column width, which would otherwise keep the
+     bar at 32% of the row once the cells become blocks. */
+  .reg__t .c-w { width: 100%; }
+  .reg__r .c-w { padding-top: 1.15rem; }
+  .reg__r .c-w::before {
+    content: "Scent weight"; display: block; margin-bottom: .55rem;
+    font-size: .62rem; font-weight: 600; color: var(--dim);
+    letter-spacing: .16em; text-transform: uppercase; opacity: .75;
+  }
+  .reg__r--na .c-w { padding-top: 1.15rem; }
+}
