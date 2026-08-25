@@ -22,7 +22,28 @@
      still is on screen at the first paint rather than after it. -->
 <link rel="preload" as="image" href="assets/img/hero-poster.jpg" fetchpriority="high">
 <link rel="stylesheet" href="assets/css/styles.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+document.documentElement.classList.add('js');
+/* The hero's opening move, held until the display face has landed: the lines
+   are set in Cormorant, and rising them in the fallback serif would re-set
+   every one of them mid-move when the real face arrives. It is triggered here,
+   inline, rather than from main.js — the hidden start state is gated on the
+   .js class added directly above, so the class that hides the type and the
+   class that releases it can never come apart, whatever happens to the deferred
+   script. DOMContentLoaded first, because document.fonts.ready is only
+   meaningful once there is a document whose fonts can be pending; the timeout
+   is the backstop for a face that never lands at all. */
+(function () {
+  var d = document;
+  var lit = function () { d.documentElement.classList.add('lit'); };
+  var wait = function () {
+    if (d.fonts && d.fonts.ready) { d.fonts.ready.then(lit); setTimeout(lit, 700); }
+    else { lit(); }
+  };
+  if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', wait);
+  else wait();
+})();
+</script>
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2312100E'/%3E%3Cpath d='M16 9v17' stroke='%23C9A227' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='8' r='2.5' fill='%23E0662F'/%3E%3C/svg%3E">
 </head>
@@ -78,10 +99,14 @@
   <div class="hero__scrim" aria-hidden="true"></div>
 
   <div class="shell hero__in">
+    <!-- Each line is set in its own masked box and the inner <i> is what
+         moves, so the type rises from under its own baseline rather than
+         fading in as a block. The wrapper is required: a line cannot be
+         clipped by the box it is the content of. -->
     <h1 class="hero__title">
-      <span class="l">Perfume first.</span>
-      <span class="l">The stick is only</span>
-      <span class="l">how it travels.</span>
+      <span class="l"><i>Perfume first.</i></span>
+      <span class="l"><i>The stick is only</i></span>
+      <span class="l"><i>how it travels.</i></span>
     </h1>
     <p class="hero__lede">
       Incense Creators has blended, rolled and cured agarbatti in Bengaluru since 1989 —

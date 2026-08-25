@@ -43,10 +43,14 @@
   /* ── Reveal on scroll ─────────────────────────────────────────────
      Sections, register rows and figures fade up once. The register's
      scent-weight bars draw themselves from the same trigger, so the
-     datum arrives with the row rather than before it. */
+     datum arrives with the row rather than before it.
+
+     The hero is deliberately absent: it is never scrolled to, it is what
+     the page opens on, and it runs its own entrance off the `lit` class
+     the moment the display face is ready. */
   var targets = document.querySelectorAll(
     '.sec__head, .house__copy, .house__fig, .rec li, .reg__r, .rail li,' +
-    '.trade__fig, .trade__copy, .enq__copy, .form, .hero__in > *'
+    '.trade__fig, .trade__copy, .enq__copy, .form'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
 

@@ -241,14 +241,66 @@ h2 + .prose { margin-top: 1.5rem; }
 .hero__title {
   font-size: clamp(2.6rem, 8.2vw, 6rem);
   max-width: 16ch;
+  /* A column, purely so the lines' margins below cannot collapse into each
+     other: two adjacent negative margins collapse to the single most negative
+     of the pair rather than to their sum, which would leave every gap short of
+     the padding it is there to cancel and open the leading up by .16em a line.
+     Flex items do not collapse margins, so each line takes back exactly what
+     it added. */
+  display: flex; flex-direction: column;
 }
-.hero__title .l { display: block; }
+
+/* Each line is its own masked box, and the <i> inside it is what travels.
+   The box needs vertical room the tight 1.03 leading does not give it:
+   Cormorant's ascenders and its long descenders both sit outside the line
+   box, and `overflow: hidden` would shear the P of "Perfume" and the y of
+   "only" for as long as the page is open. The padding buys that room and
+   the matching negative margins hand it straight back, so the mask is the
+   only thing that changes — the three lines set exactly where they set
+   before. */
+.hero__title .l {
+  display: block; overflow: hidden;
+  padding: .16em 0 .22em;
+  margin: -.16em 0 -.22em;
+}
+.hero__title .l i { display: block; font-style: normal; }
 .hero__title .l:last-child { color: var(--brass); }
 .hero__lede {
   max-width: 40rem; margin-top: 1.6rem;
   color: var(--dim); font-size: clamp(1rem, 1.8vw, 1.14rem); line-height: 1.7;
 }
 .hero__act { display: flex; flex-wrap: wrap; gap: .6rem 1.75rem; margin-top: 2.2rem; }
+
+/* ── The hero's entrance ─────────────────────────────────────────────
+   The three lines rise out from under their own baselines, one after the
+   next, and the lede and the button follow them up. It is held until the
+   `lit` class lands — see the note on the inline script in the head — and,
+   like every other opening state on the page, it is written only for .js,
+   so the hero is never hidden by a start state nothing will clear.
+
+   The lines travel their own height plus the mask's lower padding, which is
+   the distance that puts the tallest ascender below the bottom edge of the
+   box; at 100% alone a sliver of the line waits on screen in the padding.
+   Nothing here animates anything but transform and opacity, so the entrance
+   costs no layout while the hero video is coming up behind it. */
+.js .hero__title .l i { transform: translateY(calc(100% + .3em)); }
+.js .hero__lede,
+.js .hero__act { opacity: 0; transform: translateY(16px); }
+
+.js.lit .hero__title .l i {
+  transform: none;
+  transition: transform .95s var(--ease);
+}
+.js.lit .hero__title .l:nth-child(2) i { transition-delay: .11s; }
+.js.lit .hero__title .l:nth-child(3) i { transition-delay: .22s; }
+
+.js.lit .hero__lede,
+.js.lit .hero__act {
+  opacity: 1; transform: none;
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.js.lit .hero__lede { transition-delay: .34s; }
+.js.lit .hero__act  { transition-delay: .44s; }
 
 /* Label strip — the product-label device, full width at the hero's foot. */
 .label {
@@ -517,6 +569,8 @@ h2 + .prose { margin-top: 1.5rem; }
     transition-duration: .001ms !important;
   }
   .js .reveal, .js .reveal.in { opacity: 1; transform: none; }
+  .js .hero__title .l i { transform: none; }
+  .js .hero__lede, .js .hero__act { opacity: 1; transform: none; }
   .js .bar i { transform: scaleX(1); }
   .js .bar::after { opacity: 1; }
 }
