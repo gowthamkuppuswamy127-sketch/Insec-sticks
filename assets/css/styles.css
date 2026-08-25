@@ -210,6 +210,25 @@ h2 + .prose { margin-top: 1.5rem; }
   overflow: hidden;
 }
 .hero__media { position: absolute; inset: 0; }
+
+/* The video's opening frame, painted under the video itself. It carries the
+   hero from the first paint through buffering, and it stays put if the video
+   is dropped on a load error. It sits on its own layer rather than in the
+   container's background so the [data-fallback] gradient survives beneath it
+   as the last resort. Crop and framing mirror .hero__video below, so the
+   still and the first moving frame land in the same place — the picture never
+   jumps when playback starts.
+
+   The z-index matches .hero__video's for the same reason: the video sits
+   above .hero__scrim, so a still left on the default layer would be painted
+   through the scrim and arrive noticeably darker than the video that replaces
+   it — trading the dark first paint for a brightening one. Level with the
+   video, the two are the same picture at the same brightness, and tree order
+   still puts the video on top once it has a frame to show. */
+.hero__media::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: url("../img/hero-poster.jpg") center 40% / cover no-repeat;
+}
 .hero__video {
   position: absolute; inset: 0; z-index: 1;
   width: 100%; height: 100%;

@@ -18,6 +18,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- The hero's opening frame, fetched ahead of the stylesheet queue so the
+     still is on screen at the first paint rather than after it. -->
+<link rel="preload" as="image" href="assets/img/hero-poster.jpg" fetchpriority="high">
 <link rel="stylesheet" href="assets/css/styles.css">
 <script>document.documentElement.classList.add('js')</script>
 
@@ -59,12 +62,15 @@
 
 <!-- ══ Hero ═══════════════════════════════════════════ -->
 <section class="hero">
-  <!-- The video is the hero's only picture: no poster and no still underneath,
-       so nothing else can paint ahead of it. Until the first frame arrives the
-       container's own gradient holds the space, and it stands in permanently if
-       the file cannot be fetched or decoded. -->
+  <!-- The video is the hero's only picture, and its own opening frame stands in
+       until it plays: the same still is the <video> poster and the container's
+       background, so it holds the hero whether the video is merely buffering or
+       has been dropped outright. It is one file and one fetch either way, cropped
+       identically to the video, so playback begins with no change of picture. The
+       container's gradient is the last resort, if the still cannot be fetched. -->
   <div class="hero__media" data-fallback>
     <video class="hero__video" autoplay muted loop playsinline preload="auto"
+           poster="assets/img/hero-poster.jpg"
            aria-hidden="true" tabindex="-1" width="1280" height="720">
       <source src="assets/video/hero.mp4" type="video/mp4">
     </video>

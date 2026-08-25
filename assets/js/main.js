@@ -87,8 +87,8 @@
 
   /* Hero video. It is the hero's only picture, so it is hidden in one case
      only: the file itself cannot be fetched or decoded, which leaves the
-     container's gradient. That error fires on the <source> rather than the
-     <video>, so listen in the capture phase to catch it. */
+     opening frame behind it holding the hero as a still. That error fires on
+     the <source> rather than the <video>, so listen in the capture phase. */
   var vid = document.querySelector('.hero__video');
   if (vid) {
     var dropVideo = function () { vid.style.display = 'none'; };
@@ -96,7 +96,8 @@
     if (vid.networkState === 3 /* NETWORK_NO_SOURCE */) dropVideo();
 
     if (reduced) {
-      /* Less motion, not less picture: hold the opening frame. The autoplay
+      /* Less motion, not less picture: hold the opening frame — the same one
+         the poster shows, so there is nothing to see happen. The autoplay
          attribute is left in the markup so the video still runs without JS,
          so undo it here — including any playback already begun. */
       vid.removeAttribute('autoplay');
