@@ -85,19 +85,42 @@
     if (img.complete && img.naturalWidth === 0) fail();
   });
 
-  /* Hero video. A browser that cannot fetch or decode the file fires error on
-     the <source>, not the <video>, so listen on both; hiding the video uncovers
-     the still already sitting underneath it. */
+  /* Hero video. It is the hero's only picture, so it is hidden in one case
+     only: the file itself cannot be fetched or decoded, which leaves the
+     container's gradient. That error fires on the <source> rather than the
+     <video>, so listen in the capture phase to catch it. */
   var vid = document.querySelector('.hero__video');
   if (vid) {
     var dropVideo = function () { vid.style.display = 'none'; };
     vid.addEventListener('error', dropVideo, true);
     if (vid.networkState === 3 /* NETWORK_NO_SOURCE */) dropVideo();
 
-    /* Autoplay can still be refused — a data saver, a battery-saver mode, or
-       iOS low-power. Falling back to the still beats a frozen first frame. */
-    var attempt = vid.play();
-    if (attempt && typeof attempt.catch === 'function') attempt.catch(dropVideo);
+    if (reduced) {
+      /* Less motion, not less picture: hold the opening frame. The autoplay
+         attribute is left in the markup so the video still runs without JS,
+         so undo it here — including any playback already begun. */
+      vid.removeAttribute('autoplay');
+      vid.loop = false;
+      vid.addEventListener('play', function () { vid.pause(); });
+      vid.pause();
+    } else {
+      /* Autoplay can be refused — a data saver, battery-saver mode, iOS low
+         power. The frame on screen is the video's own, so keep it and start
+         playback at the first interaction instead of blanking the hero. */
+      var attempt = vid.play();
+      if (attempt && typeof attempt.catch === 'function') {
+        attempt.catch(function () {
+          var events = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
+          var retry = function () {
+            events.forEach(function (e) { document.removeEventListener(e, retry); });
+            vid.play();
+          };
+          events.forEach(function (e) {
+            document.addEventListener(e, retry, { once: true, passive: true });
+          });
+        });
+      }
+    }
   }
 
   /* ── Enquiry form ─────────────────────────────────────────────────

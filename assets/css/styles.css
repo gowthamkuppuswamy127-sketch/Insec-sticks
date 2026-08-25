@@ -210,19 +210,15 @@ h2 + .prose { margin-top: 1.5rem; }
   overflow: hidden;
 }
 .hero__media { position: absolute; inset: 0; }
-.hero__media img,
 .hero__video {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; z-index: 1;
   width: 100%; height: 100%;
   object-fit: cover; object-position: center 40%;
 }
-.hero__video { z-index: 1; }
 
-/* Someone who has asked for less motion gets the still, and the video is
-   never fetched or painted at all. */
-@media (prefers-reduced-motion: reduce) {
-  .hero__video { display: none; }
-}
+/* Someone who has asked for less motion keeps the picture and loses the
+   movement: main.js holds the video on its opening frame rather than hiding
+   it, which would leave the hero with nothing but its gradient. */
 .hero__scrim {
   position: absolute; inset: 0;
   background:

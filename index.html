@@ -59,13 +59,11 @@
 
 <!-- ══ Hero ═══════════════════════════════════════════ -->
 <section class="hero">
-  <!-- Layered so the hero always has something to show: the still paints
-       first and stands in while the video buffers, the video covers it once
-       playing, and the container's gradient covers both if neither loads.
-       Reduced motion drops the video in CSS, before it can ever paint. -->
+  <!-- The video is the hero's only picture: no poster and no still underneath,
+       so nothing else can paint ahead of it. Until the first frame arrives the
+       container's own gradient holds the space, and it stands in permanently if
+       the file cannot be fetched or decoded. -->
   <div class="hero__media" data-fallback>
-    <img src="https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=1600&q=70"
-         alt="" fetchpriority="high" width="1600" height="1067">
     <video class="hero__video" autoplay muted loop playsinline preload="auto"
            aria-hidden="true" tabindex="-1" width="1280" height="720">
       <source src="assets/video/hero.mp4" type="video/mp4">
