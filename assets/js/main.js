@@ -85,6 +85,21 @@
     if (img.complete && img.naturalWidth === 0) fail();
   });
 
+  /* Hero video. A browser that cannot fetch or decode the file fires error on
+     the <source>, not the <video>, so listen on both; hiding the video uncovers
+     the still already sitting underneath it. */
+  var vid = document.querySelector('.hero__video');
+  if (vid) {
+    var dropVideo = function () { vid.style.display = 'none'; };
+    vid.addEventListener('error', dropVideo, true);
+    if (vid.networkState === 3 /* NETWORK_NO_SOURCE */) dropVideo();
+
+    /* Autoplay can still be refused — a data saver, a battery-saver mode, or
+       iOS low-power. Falling back to the still beats a frozen first frame. */
+    var attempt = vid.play();
+    if (attempt && typeof attempt.catch === 'function') attempt.catch(dropVideo);
+  }
+
   /* ── Enquiry form ─────────────────────────────────────────────────
      There is no backend on a static page, so the form validates, then
      composes a mail message. The button says "Send enquiry" and the

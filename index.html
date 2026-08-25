@@ -59,9 +59,17 @@
 
 <!-- ══ Hero ═══════════════════════════════════════════ -->
 <section class="hero">
+  <!-- Layered so the hero always has something to show: the still paints
+       first and stands in while the video buffers, the video covers it once
+       playing, and the container's gradient covers both if neither loads.
+       Reduced motion drops the video in CSS, before it can ever paint. -->
   <div class="hero__media" data-fallback>
-    <img src="https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=2000&q=80"
-         alt="" fetchpriority="high" width="2000" height="1333">
+    <img src="https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=1600&q=70"
+         alt="" fetchpriority="high" width="1600" height="1067">
+    <video class="hero__video" autoplay muted loop playsinline preload="auto"
+           aria-hidden="true" tabindex="-1" width="1280" height="720">
+      <source src="assets/video/hero.mp4" type="video/mp4">
+    </video>
   </div>
   <div class="hero__scrim" aria-hidden="true"></div>
 

@@ -210,7 +210,19 @@ h2 + .prose { margin-top: 1.5rem; }
   overflow: hidden;
 }
 .hero__media { position: absolute; inset: 0; }
-.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.hero__media img,
+.hero__video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 40%;
+}
+.hero__video { z-index: 1; }
+
+/* Someone who has asked for less motion gets the still, and the video is
+   never fetched or painted at all. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__video { display: none; }
+}
 .hero__scrim {
   position: absolute; inset: 0;
   background:
@@ -473,8 +485,11 @@ h2 + .prose { margin-top: 1.5rem; }
    Every photograph sits on a ground that already looks deliberate, so
    a blocked or missing remote image degrades to a warm gradient rather
    than a broken-image icon. main.js hides the <img> on error. */
+/* No `position` here on purpose: it would tie with .hero__media on
+   specificity and, coming later in the file, win — collapsing the hero
+   media box to zero height. Nothing inside these containers is positioned
+   against them, so they do not need it. */
 [data-fallback] {
-  position: relative;
   background:
     radial-gradient(120% 90% at 22% 8%, rgba(224,102,47,.20), transparent 58%),
     radial-gradient(90% 80% at 82% 92%, rgba(201,162,39,.16), transparent 62%),

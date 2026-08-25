@@ -48,13 +48,43 @@ the client before this goes live:
 2. **The five making stages.** Standard good practice for masala agarbatti, not
    a description of this specific factory's line. Confirm before publishing.
 
+## Hero video
+
+`assets/video/hero.mp4` — 1280×720, H.264 Main L3.1, 5.04s, **no audio track**,
+1.5 MB, `moov` before `mdat` so playback starts without waiting for the whole
+file. Good as supplied; it did not need re-encoding.
+
+The hero stacks three layers so there is always something on screen:
+
+1. `<video>` — autoplay, muted, looped, `playsinline` (without which iOS
+   Safari takes it fullscreen).
+2. A still underneath it, which paints first and stands in while the video
+   buffers, and stays visible if the video never arrives.
+3. The container's gradient, if neither loads.
+
+`main.js` hides the video if the source errors or if autoplay is refused — a
+data saver, battery saver, or iOS low-power mode will all refuse it — which
+uncovers the still. Under `prefers-reduced-motion: reduce` the video is dropped
+in CSS, so it is never fetched or painted at all.
+
+**Not verified in a browser here.** The build environment's Chromium ships
+without H.264 and its bundled ffmpeg has no MP4 demuxer, so the video could not
+be decoded to confirm playback or to generate a poster frame. The file's
+structure was parsed directly and is sound, and the hero layout was verified by
+substituting a codec the sandbox can decode. Play the page in a real browser to
+confirm, and check the copy stays legible against the footage — the hero scrim
+is heaviest on the left, where the text sits.
+
+To swap the video, replace the file at the same path. If a poster frame is
+wanted, export one from the video and add `poster="..."` to the `<video>`.
+
 ## Photography
 
 Three photographs are hotlinked from Unsplash:
 
 | Section | URL |
 |---|---|
-| Hero | `images.unsplash.com/photo-1602928321679-560bb453f190` |
+| Hero (still behind the video) | `images.unsplash.com/photo-1602928321679-560bb453f190` |
 | House | `images.unsplash.com/photo-1585059895524-72359e06133a` |
 | Trade | `images.unsplash.com/photo-1553413077-190dd305871c` |
 
@@ -90,3 +120,8 @@ usable without it.
 - No console errors; no horizontal overflow at either width
 - All interactive controls ≥44px tall except inline links inside sentences
 - Deep links to every section render fully
+- Hero media box fills the hero at both widths (it previously collapsed to
+  zero height: `[data-fallback]` set `position: relative`, tying with
+  `.hero__media` on specificity and winning on source order)
+- Video path checked with a substitute codec: the element covers the hero,
+  plays, loops, and falls back to the still when the source cannot be decoded
