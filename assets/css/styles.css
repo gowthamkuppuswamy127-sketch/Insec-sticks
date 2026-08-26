@@ -302,34 +302,6 @@ h2 + .prose { margin-top: 1.5rem; }
 .js.lit .hero__lede { transition-delay: .34s; }
 .js.lit .hero__act  { transition-delay: .44s; }
 
-/* Label strip — the product-label device, full width at the hero's foot. */
-.label {
-  position: relative; z-index: 2;
-  display: grid; grid-template-columns: repeat(2, 1fr);
-  border-top: 1px solid var(--rule);
-  background: color-mix(in srgb, var(--ground) 78%, transparent);
-  backdrop-filter: blur(6px);
-}
-.label > div {
-  padding: 1.05rem 1.25rem;
-  border-bottom: 1px solid var(--rule);
-}
-.label > div + div { border-left: 1px solid var(--rule); }
-.label > div:nth-child(3) { border-left: 0; }
-@media (min-width: 768px) {
-  .label { grid-template-columns: repeat(4, 1fr); }
-  .label > div { padding: 1.15rem 2.5rem; border-bottom: 0; }
-  .label > div:nth-child(3) { border-left: 1px solid var(--rule); }
-}
-.label dt {
-  font-size: .64rem; font-weight: 600; color: var(--dim);
-  letter-spacing: .16em; text-transform: uppercase;
-}
-.label dd {
-  margin-top: .3rem; font-size: 1.02rem; font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-
 /* ── House ──────────────────────────────────────────────────────── */
 .house__grid { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
 @media (min-width: 940px) {
