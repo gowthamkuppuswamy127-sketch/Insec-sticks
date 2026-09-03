@@ -166,90 +166,85 @@ document.documentElement.classList.add('js');
       </p>
     </header>
 
-    <div class="reg__scroll">
-      <table class="reg__t">
-        <caption class="sr">The fragrance register: name, family, format and indicative scent weight</caption>
-        <thead>
-          <tr>
-            <th scope="col" class="c-i">№</th>
-            <th scope="col" class="c-n">Fragrance</th>
-            <th scope="col" class="c-f">Family</th>
-            <th scope="col" class="c-m">Format</th>
-            <th scope="col" class="c-w">Scent weight <span>light → heavy</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="reg__r" style="--w:72%">
-            <td class="c-i">01</td>
-            <td class="c-n"><b>Chitramala</b><em>The line the house is known for at home.</em></td>
-            <td class="c-f" data-l="Family">Floral masala</td>
-            <td class="c-m" data-l="Format">Bamboo stick</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r" style="--w:56%">
-            <td class="c-i">02</td>
-            <td class="c-n"><b>Vaastu</b><em>Drier smoke, blended for rooms rather than altars.</em></td>
-            <td class="c-f" data-l="Family">Herbal</td>
-            <td class="c-m" data-l="Format">Bamboo stick</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r" style="--w:64%">
-            <td class="c-i">03</td>
-            <td class="c-n"><b>ABCD</b><em>The value line, packed for high-turnover counters.</em></td>
-            <td class="c-f" data-l="Family">Mixed</td>
-            <td class="c-m" data-l="Format">Bamboo stick</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r" style="--w:48%">
-            <td class="c-i">04</td>
-            <td class="c-n"><b>Silver Rose</b><em>A single-note rose, powdery as it settles.</em></td>
-            <td class="c-f" data-l="Family">Floral</td>
-            <td class="c-m" data-l="Format">Bamboo stick</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r" style="--w:80%">
-            <td class="c-i">05</td>
-            <td class="c-n"><b>Kesar Chandan</b><em>Saffron and sandalwood — the pairing buyers test a supplier on.</em></td>
-            <td class="c-f" data-l="Family">Woody</td>
-            <td class="c-m" data-l="Format">Bamboo stick</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r" style="--w:42%">
-            <td class="c-i">06</td>
-            <td class="c-n"><b>Lychee</b><em>Bright and juicy. A strong seller in export markets.</em></td>
-            <td class="c-f" data-l="Family">Fruit</td>
-            <td class="c-m" data-l="Format">Bamboo stick</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r" style="--w:45%">
-            <td class="c-i">07</td>
-            <td class="c-n"><b>Pineapple</b><em>Sharp and sunny — bought for the house, not the shrine.</em></td>
-            <td class="c-f" data-l="Family">Fruit</td>
-            <td class="c-m" data-l="Format">Bamboo stick</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r" style="--w:92%">
-            <td class="c-i">08</td>
-            <td class="c-n"><b>Sambrani Dhoop</b><em>Benzoin resin, pressed without bamboo. Dense and long.</em></td>
-            <td class="c-f" data-l="Family">Resin</td>
-            <td class="c-m" data-l="Format">Bambooless dhoop</td>
-            <td class="c-w"><span class="bar"><i></i></span></td>
-          </tr>
-          <tr class="reg__r reg__r--na">
-            <td class="c-i">09</td>
-            <td class="c-n"><b>Pooja &amp; Deepam Oils</b><em>Shiva Shakthi Pancha Deepam and Pancha Thyla, retail and bulk.</em></td>
-            <td class="c-f" data-l="Family">Oils</td>
-            <td class="c-m" data-l="Format">Bottled</td>
-            <td class="c-w"><span class="na">n/a</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <ul class="prod-grid" aria-label="The fragrance register: name, family, format and indicative scent weight">
+      <li class="prod" style="--w:72%">
+        <div class="prod__top"><span class="prod__i">01</span><span class="prod__f">Floral masala</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Chitramala</h3>
+          <p class="prod__d">The line the house is known for at home.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bamboo stick</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod" style="--w:56%">
+        <div class="prod__top"><span class="prod__i">02</span><span class="prod__f">Herbal</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Vaastu</h3>
+          <p class="prod__d">Drier smoke, blended for rooms rather than altars.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bamboo stick</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod" style="--w:64%">
+        <div class="prod__top"><span class="prod__i">03</span><span class="prod__f">Mixed</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">ABCD</h3>
+          <p class="prod__d">The value line, packed for high-turnover counters.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bamboo stick</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod" style="--w:48%">
+        <div class="prod__top"><span class="prod__i">04</span><span class="prod__f">Floral</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Silver Rose</h3>
+          <p class="prod__d">A single-note rose, powdery as it settles.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bamboo stick</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod" style="--w:80%">
+        <div class="prod__top"><span class="prod__i">05</span><span class="prod__f">Woody</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Kesar Chandan</h3>
+          <p class="prod__d">Saffron and sandalwood — the pairing buyers test a supplier on.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bamboo stick</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod" style="--w:42%">
+        <div class="prod__top"><span class="prod__i">06</span><span class="prod__f">Fruit</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Lychee</h3>
+          <p class="prod__d">Bright and juicy. A strong seller in export markets.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bamboo stick</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod" style="--w:45%">
+        <div class="prod__top"><span class="prod__i">07</span><span class="prod__f">Fruit</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Pineapple</h3>
+          <p class="prod__d">Sharp and sunny — bought for the house, not the shrine.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bamboo stick</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod" style="--w:92%">
+        <div class="prod__top"><span class="prod__i">08</span><span class="prod__f">Resin</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Sambrani Dhoop</h3>
+          <p class="prod__d">Benzoin resin, pressed without bamboo. Dense and long.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bambooless dhoop</span><span class="bar"><i></i></span></div>
+      </li>
+      <li class="prod prod--na">
+        <div class="prod__top"><span class="prod__i">09</span><span class="prod__f">Oils</span></div>
+        <div class="prod__mid">
+          <h3 class="prod__name">Pooja &amp; Deepam Oils</h3>
+          <p class="prod__d">Shiva Shakthi Pancha Deepam and Pancha Thyla, retail and bulk.</p>
+        </div>
+        <div class="prod__bot"><span class="prod__m">Bottled</span><span class="prod__na">Not applicable</span></div>
+      </li>
+    </ul>
 
     <p class="reg__note">
-      Scent weight is indicative and set by our own blenders — full specifications, burn times
-      and pack sizes come with the quote. Need a fragrance that isn't listed?
-      <a href="#enquiry">We develop to a brief.</a>
+      The base of each tile's bar reads light, the lit tip heavy. Scent weight is indicative and
+      set by our own blenders — full specifications, burn times and pack sizes come with the
+      quote. Need a fragrance that isn't listed? <a href="#enquiry">We develop to a brief.</a>
     </p>
   </div>
 </section>

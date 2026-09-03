@@ -49,7 +49,7 @@
      the page opens on, and it runs its own entrance off the `lit` class
      the moment the display face is ready. */
   var targets = document.querySelectorAll(
-    '.sec__head, .house__copy, .house__fig, .rec li, .reg__r, .rail li,' +
+    '.sec__head, .house__copy, .house__fig, .rec li, .prod, .rail li,' +
     '.trade__fig, .trade__copy, .enq__copy, .form'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });

@@ -25,11 +25,15 @@ assets/js/main.js
 Every text pairing clears WCAG AA on its own ground (lowest is ember on card at
 4.87:1). Rules are drawn in low-opacity paper, never in gold.
 
-**Signature — the register.** The product range is presented as a perfumer's
-register rather than a card grid: name, family, format, and a horizontal ember
-bar whose length is the datum. The bars draw themselves as each row scrolls in.
-Below 760px the table becomes stacked records so the bar stays on screen at
-full width instead of hiding behind a horizontal scroll.
+**Signature — the register.** The product range is a perfumer's register laid
+out as a grid of square tiles: index, family, name, description, format, and a
+horizontal ember bar whose length is the scent-weight datum, with the tip lit.
+Tiles sit on a shared hairline background with a 1px gap, so the grid reads as
+one cut sheet rather than nine separate cards. The bars draw themselves as
+each tile scrolls into view. Below 720px the grid drops to two columns; nine
+tiles don't divide evenly into pairs, so the ninth (Pooja & Deepam Oils, the
+one line with no scent weight) spans the full width as a closing row instead
+of leaving a stray empty cell.
 
 ## Content sources
 
@@ -42,9 +46,9 @@ Two things on the page are **written, not sourced**, and should be checked with
 the client before this goes live:
 
 1. **Scent-weight values** in the register (the `--w` custom property on each
-   `<tr>`). These are indicative placeholders. The section says so in print, but
-   replace them with the client's real figures — or swap the column for burn
-   time, which buyers ask about more.
+   `<li class="prod">`). These are indicative placeholders. The section says so
+   in print, but replace them with the client's real figures — or swap the bar
+   for burn time, which buyers ask about more.
 2. **The five making stages.** Standard good practice for masala agarbatti, not
    a description of this specific factory's line. Confirm before publishing.
 
@@ -128,3 +132,9 @@ usable without it.
 - Video path checked with a substitute codec: the element covers the hero,
   plays, loops, and falls back to the container's gradient when the source
   cannot be decoded
+- Product grid: 3 columns at ≥720px, 2 below it; all nine tiles reveal and
+  every scent-weight bar fills to its `--w` on scroll; description text
+  truncates with an ellipsis rather than a hard mid-word clip; the ninth
+  tile's full-width span at the 2-column breakpoint sizes to its own content
+  instead of a fixed ratio, after an early version crowded its last line
+  against the card edge

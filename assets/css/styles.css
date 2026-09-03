@@ -336,49 +336,71 @@ h2 + .prose { margin-top: 1.5rem; }
 }
 .rec__v { color: var(--dim); font-size: .95rem; line-height: 1.6; }
 
-/* ── The Register ───────────────────────────────────────────────── */
+/* ── The Register — a square-tile product grid ─────────────────────
+   Nine tiles in a hairline ledger: the 1px gap is the grid's own
+   background showing through, so cards read as cut from one sheet
+   rather than as separate boxes with margins between them. */
 .reg { background: var(--ground-2); border-block: 1px solid var(--rule); }
-.reg__scroll { overflow-x: auto; }
-.reg__t { width: 100%; min-width: 44rem; border-collapse: collapse; }
 
-.reg__t thead th {
-  text-align: left; padding: 0 1rem .8rem 0;
-  font-size: .68rem; font-weight: 600; color: var(--dim);
-  letter-spacing: .16em; text-transform: uppercase;
-  border-bottom: 1px solid var(--rule-2);
+.prod-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule);
 }
-.reg__t thead th span {
-  display: block; margin-top: .25rem;
-  letter-spacing: .04em; text-transform: none; font-weight: 400; opacity: .7;
-}
-.reg__t .c-i { width: 3rem; }
-.reg__t .c-w { width: 32%; }
+@media (min-width: 720px) { .prod-grid { grid-template-columns: repeat(3, 1fr); } }
 
-.reg__r td {
-  padding: 1.15rem 1rem 1.15rem 0;
-  border-bottom: 1px solid var(--rule);
-  vertical-align: top;
+/* Nine tiles over two columns leaves one cell in the last row empty — a
+   stray highlighted gap, since the grid's own background shows through
+   unfilled tracks. Give the odd one out the full row instead: it is
+   already the outlier (no scent-weight bar), so a closing band reads as
+   a choice, not a leftover. At three columns nine divides evenly and no
+   override is needed. */
+@media (max-width: 719px) {
+  /* aspect-ratio: auto cancels the square ratio above so the card is
+     sized by its content instead — a fixed shallow ratio here crowded
+     the format label and "Not applicable" against the card's edge. */
+  .prod:last-child { grid-column: 1 / -1; aspect-ratio: auto; }
+}
+
+.prod {
+  aspect-ratio: 1; background: var(--ground-2);
+  padding: clamp(1rem, 2.6vw, 1.75rem);
+  display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden;
   transition: background-color .3s var(--ease);
 }
-.reg__r:hover td { background: rgba(247, 243, 234, .028); }
+.prod:hover { background: rgba(247, 243, 234, .035); }
 
-.reg__r .c-i {
-  font-variant-numeric: tabular-nums; font-size: .82rem;
-  color: var(--dim); padding-top: 1.5rem;
+.prod__top { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
+.prod__i {
+  font-variant-numeric: tabular-nums; font-size: .78rem; font-weight: 600;
+  color: var(--brass); letter-spacing: .04em;
 }
-.reg__r .c-n b {
-  display: block; font-family: var(--display);
-  font-size: 1.55rem; font-weight: 400; line-height: 1.15;
+.prod__f {
+  font-size: .64rem; color: var(--dim); letter-spacing: .1em;
+  text-transform: uppercase; text-align: right;
 }
-.reg__r .c-n em {
-  display: block; margin-top: .3rem; font-style: normal;
-  font-size: .88rem; color: var(--dim); line-height: 1.55; max-width: 34ch;
+
+.prod__name {
+  font-family: var(--display); font-weight: 400; line-height: 1.08;
+  font-size: clamp(1.2rem, 2.3vw, 1.6rem); margin: 0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; text-overflow: ellipsis;
 }
-.reg__r .c-f, .reg__r .c-m {
-  font-size: .86rem; color: var(--dim); padding-top: 1.45rem;
-  white-space: nowrap;
+.prod__d {
+  margin-top: .5rem; font-size: .85rem; color: var(--dim); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden; text-overflow: ellipsis;
 }
-.reg__r .c-w { padding-top: 1.75rem; }
+/* A square tile at two columns has less height to give the description
+   before it collides with the footer; clamp one line tighter there. */
+@media (max-width: 719px) {
+  .prod__d { font-size: .8rem; -webkit-line-clamp: 2; }
+}
+
+.prod__bot { display: flex; flex-direction: column; gap: .55rem; }
+.prod__m { font-size: .7rem; color: var(--dim); letter-spacing: .02em; }
+.prod__na { font-size: .76rem; color: var(--dim); }
 
 /* The one place ember appears in the body of the page: a bar whose
    length is the datum, with the tip lit. */
@@ -392,8 +414,7 @@ h2 + .prose { margin-top: 1.5rem; }
   transform-origin: left center;
 }
 .js .bar i { transform: scaleX(0); }
-.js .in .bar i,
-.js tr.in .bar i { transform: scaleX(1); transition: transform 1s var(--ease); }
+.js .in .bar i { transform: scaleX(1); transition: transform 1s var(--ease); }
 .bar::after {
   content: ""; position: absolute; top: 50%; left: var(--w, 50%);
   width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px;
@@ -401,8 +422,7 @@ h2 + .prose { margin-top: 1.5rem; }
   box-shadow: 0 0 8px 1px rgba(224, 102, 47, .55);
   opacity: 0; transition: opacity .5s ease .5s;
 }
-.js tr.in .bar::after { opacity: 1; }
-.reg__r--na .c-w { color: var(--dim); font-size: .82rem; padding-top: 1.5rem; }
+.js .in .bar::after { opacity: 1; }
 
 .reg__note {
   margin-top: 1.75rem; font-size: .88rem; color: var(--dim);
@@ -547,47 +567,3 @@ h2 + .prose { margin-top: 1.5rem; }
   .js .bar::after { opacity: 1; }
 }
 
-/* ── The register on a small screen ─────────────────────────────────
-   A horizontally scrolling table hides the scent-weight bar — the one
-   piece of the register a buyer is here to compare — behind a gesture
-   with nothing to suggest it. Below 760px each fragrance becomes a
-   stacked record instead, so the bar stays on screen at full width. */
-@media (max-width: 760px) {
-  .reg__scroll { overflow-x: visible; }
-  .reg__t { min-width: 0; }
-  .reg__t thead {
-    position: absolute; width: 1px; height: 1px;
-    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
-  }
-  .reg__t, .reg__t tbody, .reg__t tr, .reg__t td { display: block; width: 100%; }
-
-  .reg__r { padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
-  .reg__r:first-child { border-top: 1px solid var(--rule-2); }
-  .reg__r td { border: 0; padding: 0; }
-  .reg__r:hover td { background: none; }
-
-  .reg__r .c-i { padding: 0 0 .45rem; }
-  .reg__r .c-n b { font-size: 1.75rem; }
-  .reg__r .c-n em { max-width: none; }
-
-  .reg__r .c-f, .reg__r .c-m {
-    display: inline-block; width: auto;
-    padding: .9rem 1.6rem 0 0; white-space: normal;
-  }
-  .reg__r .c-f::before, .reg__r .c-m::before {
-    content: attr(data-l); display: block; margin-bottom: .15rem;
-    font-size: .62rem; font-weight: 600; color: var(--dim);
-    letter-spacing: .16em; text-transform: uppercase; opacity: .75;
-  }
-
-  /* Overrides the desktop column width, which would otherwise keep the
-     bar at 32% of the row once the cells become blocks. */
-  .reg__t .c-w { width: 100%; }
-  .reg__r .c-w { padding-top: 1.15rem; }
-  .reg__r .c-w::before {
-    content: "Scent weight"; display: block; margin-bottom: .55rem;
-    font-size: .62rem; font-weight: 600; color: var(--dim);
-    letter-spacing: .16em; text-transform: uppercase; opacity: .75;
-  }
-  .reg__r--na .c-w { padding-top: 1.15rem; }
-}
