@@ -265,11 +265,7 @@ h2 + .prose { margin-top: 1.5rem; }
 }
 .hero__title .l i { display: block; font-style: normal; }
 .hero__title .l:last-child { color: var(--brass); }
-.hero__lede {
-  max-width: 40rem; margin-top: 1.6rem;
-  color: var(--dim); font-size: clamp(1rem, 1.8vw, 1.14rem); line-height: 1.7;
-}
-.hero__act { display: flex; flex-wrap: wrap; gap: .6rem 1.75rem; margin-top: 2.2rem; }
+.hero__act { display: flex; flex-wrap: wrap; gap: .6rem 1.75rem; margin-top: clamp(2rem, 4vw, 3rem); }
 
 /* ── The hero's entrance ─────────────────────────────────────────────
    The three lines rise out from under their own baselines, one after the
@@ -284,7 +280,6 @@ h2 + .prose { margin-top: 1.5rem; }
    Nothing here animates anything but transform and opacity, so the entrance
    costs no layout while the hero video is coming up behind it. */
 .js .hero__title .l i { transform: translateY(calc(100% + .3em)); }
-.js .hero__lede,
 .js .hero__act { opacity: 0; transform: translateY(16px); }
 
 .js.lit .hero__title .l i {
@@ -294,13 +289,11 @@ h2 + .prose { margin-top: 1.5rem; }
 .js.lit .hero__title .l:nth-child(2) i { transition-delay: .11s; }
 .js.lit .hero__title .l:nth-child(3) i { transition-delay: .22s; }
 
-.js.lit .hero__lede,
 .js.lit .hero__act {
   opacity: 1; transform: none;
   transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transition-delay: .34s;
 }
-.js.lit .hero__lede { transition-delay: .34s; }
-.js.lit .hero__act  { transition-delay: .44s; }
 
 /* ── House ──────────────────────────────────────────────────────── */
 .house__grid { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
@@ -562,7 +555,7 @@ h2 + .prose { margin-top: 1.5rem; }
   }
   .js .reveal, .js .reveal.in { opacity: 1; transform: none; }
   .js .hero__title .l i { transform: none; }
-  .js .hero__lede, .js .hero__act { opacity: 1; transform: none; }
+  .js .hero__act { opacity: 1; transform: none; }
   .js .bar i { transform: scaleX(1); }
   .js .bar::after { opacity: 1; }
 }
